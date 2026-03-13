@@ -1,4 +1,5 @@
 # local module
+from altair import TextBaseline
 from numpy import integer
 from src.Components.vclDashboard import vcl_dashboard
 from src.Components.Pages.wellComposite import well_composite
@@ -14,33 +15,6 @@ file_path = os.path.join(current_path, "results/main.csv")
 st.title("Log Interpretation Dashboard")
 upload_file = st.file_uploader("Choose csv LAS files")
 
-curve_options = [
-    "GR",
-    "CALI",
-    "SP",
-    "SR",
-    "MR",
-    "DR",
-    "DT",
-    "RHOB",
-    "NPHI",
-    "NPHI_corr",
-]
-
-scale_options = ["linear", "log", "symlog", "logit", "function"]
-color_options = [
-    "#FFD700",  # Gold (Lithology shading)
-    "#90EE90",  # LightGreen (Lithology fill)
-    "#006400",  # DarkGreen (Permeability indicator)
-    "#FFB6C1",  # LightPink (Resistivity background)
-    "#DC143C",  # Crimson (Resistivity curve)
-    "#87CEEB",  # SkyBlue (Pore space)
-    "#4682B4",  # SteelBlue (Pore space data points)
-    "#FFA500",  # Orange (SP curve)
-    "#800080",  # Purple (Water saturation curves)
-    "#A52A2A",  # Brown (Shale indicator)
-    "#D8BFD8",  # Thistle (Background shading)
-]
 if upload_file:
     well_data = pd.read_csv(upload_file)
     min_depth = well_data.DEPT.min()
@@ -82,6 +56,17 @@ if upload_file:
 
     def page3():
         st.title("Hello World")
+        if "multiselect" not in st.session_state:
+            st.session_state.multiselect = []
+
+        with st.sidebar:
+            test_var = st.multiselect(
+                label="Test Multiselect",
+                options=["a", "b", "c"],
+                default=st.session_state.multiselect,
+            )
+            st.session_state.multiselect = test_var
+            st.write(test_var)
 
     def page4():
         st.title("Hello World")
